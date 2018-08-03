@@ -1,6 +1,21 @@
 pragma solidity ^0.4.24;
 
-import "./IERC20Token.sol";
+
+contract IERC20Token {
+    string public name;
+    string public symbol;
+    uint8 public decimals;
+    uint256 public totalSupply;
+
+    function balanceOf(address _owner) public view returns (uint256 balance);
+    function transfer(address _to, uint256 _value)  public returns (bool success);
+    function transferFrom(address _from, address _to, uint256 _value)  public returns (bool success);
+    function approve(address _spender, uint256 _value)  public returns (bool success);
+    function allowance(address _owner, address _spender)  public view returns (uint256 remaining);
+
+    event Transfer(address indexed _from, address indexed _to, uint256 _value);
+    event Approval(address indexed _owner, address indexed _spender, uint256 _value);
+}
 
 
 // //TODO:
@@ -23,17 +38,23 @@ contract Counter {
         _;
     }
 
+    constructor() public {}
+
+    //user should approve transfer first on erc20 for our contract address
+    //approval takes 45225 gas
+    //this fn takes 164756 gas
     function createTx(address dest, bytes32 digest, address erc20, uint amount) public isNotInACurrentTx { 
         transactionMapping[msg.sender] = Tx(now + 1 hours, amount, dest, erc20, digest);
         IERC20Token token = IERC20Token(erc20);
-        token.approve(address(this), amount); 
+        //token.approve(address(this), amount); 
         token.transferFrom(msg.sender, address(this), amount); 
         //used transferfrom instead of delegate call
     }
 
     function claim(string _hash, address _initiator) public {
         Tx storage transaction = transactionMapping[_initiator];
-        require(transaction.digest == keccak256(abi.encodePacked(_hash)), "Hash doesn't match");
+        require(msg.sender == transaction.destination, "Not the right person");
+        require(transaction.digest == sha256(abi.encodePacked(_hash)), "Hash doesn't match");
         IERC20Token token = IERC20Token(transaction.erc20);
         token.transfer(transaction.destination, transaction.amount);
         delete transactionMapping[_initiator];

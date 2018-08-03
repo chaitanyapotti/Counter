@@ -1,0 +1,30 @@
+{
+  "name": "counter",
+  "version": "1.0.0",
+  "description": "In this article, we will create a series of contracts which will allow two people to exchange coins across chains in a trustless atomic manner. An atomic transaction is an indivisible and irreducible series of transactions such that either all occur, or nothing occurs. The contract used is complimentary to BIP-199 so it can be used to transact from ethereum based systems to ethereum based systems or Bitcoin based system(assuming HTLC is allowed).",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "solc": "^0.4.24",
+    "truffle-hdwallet-provider": "^0.0.6",
+    "web3": "^1.0.0-beta.35"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "test": "mocha --timeout 100000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chaitanyapotti/Counter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chaitanyapotti/Counter/issues"
+  },
+  "homepage": "https://github.com/chaitanyapotti/Counter#readme"
+}
