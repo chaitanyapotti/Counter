@@ -42,7 +42,7 @@ const deployBoth = async () => {
     //console.log(accountsRopsten[0]);
     rinkebyContract = await deploy(web3Rinkeby, interface, bytecode, accountsRinkeby);
     rinkebyERCContract = await deploy(web3Rinkeby, interfaceerc, bytecodeerc, accountsRinkeby);
-     
+
     //ropstenContract =  deploy(web3Ropsten, interface, bytecode, accountsRopsten);
     ropstenContract = await deploy(web3Rinkeby, interface, bytecode, accountsRinkeby);
     ropstenERCContract = await deploy(web3Rinkeby, interfaceerc, bytecodeerc, accountsRinkeby);
@@ -72,6 +72,24 @@ describe("Counter tests", () => {
         console.log(rinkebyContract.options.address);
         assert.ok(ropstenContract.options.address);
         console.log(ropstenContract.options.address);
-        
+    });
+
+    it("create transactions", async () => {
+        const secret = "electus";
+        const amount = 100;
+        const encodedSecret = web3.sha3(web3.toHex(secret), {
+            encoding: "hex"
+        });
+        await rinkebyERCContract.methods.approve(rinkebyContract.options.address).send({
+            from: accountsRinkeby[0]
+        });
+
+        await rinkebyContract.methods.createTx(rinkebyaccounts[1], encodedSecret, rinkebyERCContract.options.address, amount).send({
+            from: accountsRinkeby[0]
+        });
+
+        await rinkebyContract.methods.claim(secret, accountsRinkeby[0]).send({
+            from: accountsRinkeby[1]
+        });
     });
 });

@@ -54,7 +54,7 @@ contract Counter {
     function claim(string _hash, address _initiator) public {
         Tx storage transaction = transactionMapping[_initiator];
         require(msg.sender == transaction.destination, "Not the right person");
-        require(transaction.digest == sha256(abi.encodePacked(_hash)), "Hash doesn't match");
+        require(transaction.digest == keccak256(abi.encodePacked(_hash)), "Hash doesn't match");
         IERC20Token token = IERC20Token(transaction.erc20);
         token.transfer(transaction.destination, transaction.amount);
         delete transactionMapping[_initiator];
