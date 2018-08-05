@@ -23,6 +23,7 @@ contract IERC20Token {
 // create claim, refund, txInitiate
 contract Counter {
     struct Tx {
+        bool isInitiator;
         uint timeOut;
         uint amount;
         address destination;
@@ -43,8 +44,9 @@ contract Counter {
     //user should approve transfer first on erc20 for our contract address
     //approval takes 45225 gas
     //this fn takes 164756 gas
-    function createTx(address dest, bytes32 digest, address erc20, uint amount) public isNotInACurrentTx { 
-        transactionMapping[msg.sender] = Tx(now + 1 hours, amount, dest, erc20, digest);
+    function createTx(bool isInitiator, address dest, bytes32 digest, address erc20, uint amount) public
+    isNotInACurrentTx { 
+        transactionMapping[msg.sender] = Tx(isInitiator, now + 1 hours, amount, dest, erc20, digest);
         IERC20Token token = IERC20Token(erc20);
         //token.approve(address(this), amount); 
         token.transferFrom(msg.sender, address(this), amount); 
@@ -55,7 +57,10 @@ contract Counter {
         Tx storage transaction = transactionMapping[_initiator];
         require(msg.sender == transaction.destination, "Not the right person");
         require(transaction.amount == _amountExpected, "Not the right amount");
-        require(now <= transaction.timeOut - 5 minutes, "too late to withdraw");
+        if (transaction.isInitiator) {
+            require(now <= transaction.timeOut - 0.8 * 1 hours, "too late to withdraw");
+        }
+        require(now <= transaction.timeOut, "too late to withdraw");
         require(transaction.digest == keccak256(abi.encodePacked(_hash)), "Hash doesn't match");
         IERC20Token token = IERC20Token(transaction.erc20);
         token.transfer(transaction.destination, transaction.amount);
