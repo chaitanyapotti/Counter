@@ -51,9 +51,10 @@ contract Counter {
         //used transferfrom instead of delegate call
     }
 
-    function claim(string _hash, address _initiator) public {
+    function claim(string _hash, address _initiator, uint _amountExpected) public {
         Tx storage transaction = transactionMapping[_initiator];
         require(msg.sender == transaction.destination, "Not the right person");
+        require(transaction.amount == _amountExpected, "Not the right amount");
         require(transaction.digest == keccak256(abi.encodePacked(_hash)), "Hash doesn't match");
         IERC20Token token = IERC20Token(transaction.erc20);
         token.transfer(transaction.destination, transaction.amount);

@@ -77,7 +77,7 @@ describe("Counter tests", () => {
     it("create transactions", async () => {
         const secret = "electus";
         const amount = 100;
-        const encodedSecret = web3.sha3(web3.toHex(secret), {
+        const encodedSecret = await web3.sha3(web3.toHex(secret), {
             encoding: "hex"
         });
         await rinkebyERCContract.methods.approve(rinkebyContract.options.address).send({
