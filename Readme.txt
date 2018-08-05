@@ -32,6 +32,10 @@ a notification will be sent to Victor on the Counter platform informing of the f
 
 1. public address of Peggy
 2. The hashed digest used by Peggy (hash of the secret message)
+3. Token ERC20 compliant that she wishes to trade away
+4. Amount of ERC20 compliant token that she wishes to trade away
+5. Token ERC20 compliant that she wishes to receive
+6. Amount of ERC20 compliant token that she wishes receive
 
 Victor will now be creating a transaction on his chain (ETH) using the following details against the 
 Counter Smart contract on the ETH Chain.
@@ -45,6 +49,8 @@ When this transaction is created on Counter Smart Contract on the ETH Chain,
 a notification will be sent to Peggy on the Counter platform informing this:
 
 Peggy can now claim the tokens she wishes to receive on the ETH chain at the Counter Smart Contract.
+peggy can only claim her tokens until some time(t1) before the timeout(t2), both of which shall be decided before they 
+enter the transaction.
 
 For Peggy to claim the tokens, she needs to send the Counter Smart Contract, the following details:
 1. The original message (unhased secret message)
@@ -53,8 +59,9 @@ For Peggy to claim the tokens, she needs to send the Counter Smart Contract, the
 
 Once peggy claims the tokens, it will reveal the secret on the blockchain which will be informed to Victor on the Counter platform.
 
-Now, Victor has 1 hour to claim his tokens on ETC chain.
-
+Now, Victor has time until t2 to claim his tokens on ETC chain.
+only Victor can claim funds between t1 and t2.
+Post t2, both can apply for refund only.
 
 For Victor to claim the tokens, he needs to send the Counter Smart Contract, the following details:
 1. The original message (unhased secret message) found from the claim transaction created by Peggy.
@@ -64,3 +71,5 @@ For Victor to claim the tokens, he needs to send the Counter Smart Contract, the
 If Peggy never claims her tokens, Victor can never claim his. 
 If Peggy does claim her’s, she reveals the secret and Victor is free to claim his. 
 The timeout exists so Peggy and Victor can claim their funds if something goes wrong.
+If Victor enters the wrong amount into his contract, then Peggy will not be allowed to withdraw 
+to protect peggy from phishing.

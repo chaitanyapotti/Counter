@@ -55,6 +55,7 @@ contract Counter {
         Tx storage transaction = transactionMapping[_initiator];
         require(msg.sender == transaction.destination, "Not the right person");
         require(transaction.amount == _amountExpected, "Not the right amount");
+        require(now <= transaction.timeOut - 5 minutes, "too late to withdraw");
         require(transaction.digest == keccak256(abi.encodePacked(_hash)), "Hash doesn't match");
         IERC20Token token = IERC20Token(transaction.erc20);
         token.transfer(transaction.destination, transaction.amount);
