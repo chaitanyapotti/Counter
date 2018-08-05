@@ -46,9 +46,20 @@ a notification will be sent to Peggy on the Counter platform informing this:
 
 Peggy can now claim the tokens she wishes to receive on the ETH chain at the Counter Smart Contract.
 
+For Peggy to claim the tokens, she needs to send the Counter Smart Contract, the following details:
+1. The original message (unhased secret message)
+2. Public address of Victor
+3. Amount expected of the token she wishes to receive.
+
 Once peggy claims the tokens, it will reveal the secret on the blockchain which will be informed to Victor on the Counter platform.
 
 Now, Victor has 1 hour to claim his tokens on ETC chain.
+
+
+For Victor to claim the tokens, he needs to send the Counter Smart Contract, the following details:
+1. The original message (unhased secret message) found from the claim transaction created by Peggy.
+2. Public address of Peggy
+3. Amount expected of the token he wishes to receive.
 
 If Peggy never claims her tokens, Victor can never claim his. 
 If Peggy does claim her’s, she reveals the secret and Victor is free to claim his. 
