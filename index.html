@@ -1,8 +1,7 @@
 <html>
 
 <head>
-    Hello world
-    <script href="./deploy.js" type="text/javascript"></script>
+    <script src="./deploy.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -95,8 +94,3 @@
 </body>
 
 </html>
-
-// the initiator sends a message on chain 2 to ensure that if the acceptor submits wrong amount, then disallow withdrawal
-// initiator creates a tx with the following info: token1, qty1, token2, qty2, cpty id, and secret message // acceptor checks
-the details, and if satisfied, make his own deposit // initiator claims the amount if correct, else avoid, wait for refund
-// acceptor claims the initially deposited amount with revealed message
