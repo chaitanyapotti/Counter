@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    <style>
+        .dropDown {
+            width: 355px;
+            height: 56px;
+            background-color: #efefef;
+            color: #000000;
+            font-family: "Product Sans";
+            font-size: 30px;
+            font-weight: 400;
+            border-radius: 25px;
+            padding-left:47px;
+            border:None;
+        }
+        </style>
+</head>
+<body>
+    <select class ="dropDown">
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="opel">Opel</option>
+        <option value="audi">Audi</option>
+      </select>
+</body>
+
+</html>
